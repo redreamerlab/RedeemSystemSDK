@@ -1,6 +1,6 @@
 # RedeemSystemSDK
 
-[![CI Status](https://img.shields.io/travis/ArchieR7/RedeemSystemSDK.svg?style=flat)](https://travis-ci.org/ArchieR7/RedeemSystemSDK)
+[![CI Status](https://img.shields.io/travis/redreamerlab/RedeemSystemSDK.svg?style=flat)](https://travis-ci.org/redreamerlab/RedeemSystemSDK)
 [![Version](https://img.shields.io/cocoapods/v/RedeemSystemSDK.svg?style=flat)](https://cocoapods.org/pods/RedeemSystemSDK)
 [![License](https://img.shields.io/cocoapods/l/RedeemSystemSDK.svg?style=flat)](https://cocoapods.org/pods/RedeemSystemSDK)
 [![Platform](https://img.shields.io/cocoapods/p/RedeemSystemSDK.svg?style=flat)](https://cocoapods.org/pods/RedeemSystemSDK)
@@ -22,7 +22,7 @@ pod 'RedeemSystemSDK'
 
 ## Author
 
-ArchieR7, Archie@Archie.tw
+RE:DREAMER Lab, dev@redreamer.io
 
 ## License
 

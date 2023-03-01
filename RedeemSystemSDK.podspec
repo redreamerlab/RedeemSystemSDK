@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'RedeemSystemSDK'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of RedeemSystemSDK.'
+  s.summary          = `RE:DREAMER Lab's Redeem System SDK.`
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,17 +18,17 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+Redeem System SDK is a Swift library to intergate with RE:DREAMER Lab's Redeem System.
                        DESC
 
-  s.homepage         = 'https://github.com/ArchieR7/RedeemSystemSDK'
+  s.homepage         = 'https://github.com/redreamerlab/RedeemSystemSDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'ArchieR7' => 'Archie@Archie.tw' }
-  s.source           = { :git => 'https://github.com/ArchieR7/RedeemSystemSDK.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.author           = { 'RE:DREAMER Lab' => 'dev@redreamer.io' }
+  s.source           = { :git => 'https://github.com/redreamerlab/RedeemSystemSDK.git', :tag => s.version.to_s }
+  s.social_media_url = 'https://twitter.com/REDREAMER_Lab'
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '13.0'
 
   s.source_files = 'RedeemSystemSDK/Classes/**/*'
   

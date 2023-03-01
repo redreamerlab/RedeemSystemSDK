@@ -1,0 +1,16 @@
+PODS:
+  - RedeemSystemSDK (0.1.0)
+
+DEPENDENCIES:
+  - RedeemSystemSDK (from `../`)
+
+EXTERNAL SOURCES:
+  RedeemSystemSDK:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  RedeemSystemSDK: 329c5dba7eb06514daabd9bf1b26bab199fa4ed1
+
+PODFILE CHECKSUM: 5b1ea48cfe82a3ce0c4f2f9190daf97856f0abfb
+
+COCOAPODS: 1.11.3
