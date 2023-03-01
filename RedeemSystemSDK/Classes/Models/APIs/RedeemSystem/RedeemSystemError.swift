@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 public enum RedeemSystemError: LocalizedError {
     case qrCodeExpired, authorization, unknown
@@ -26,6 +27,18 @@ struct RedeemSystemErrorResponse: Decodable {
         case "QR_CODE_EXPIRED": return .qrCodeExpired
         case "AUTHORIZATION_ERROR": return .authorization
         default: return .unknown
+        }
+    }
+}
+
+extension Publisher {
+    func mapRedeemSystemError() -> Publishers.MapError<Self, RedeemSystemError> {
+        mapError { error in
+            if let error = error as? RedeemSystemError {
+                return error
+            } else {
+                return RedeemSystemError.unknown
+            }
         }
     }
 }
