@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum APIEnvironment {
+public enum APIEnvironment: String {
     case mainnet, testnet, devnet, local
 }

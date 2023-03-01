@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'RedeemSystemSDK'
   s.version          = '0.1.0'
-  s.summary          = `RE:DREAMER Lab's Redeem System SDK.`
+  s.summary          = 'RE:DREAMER Lab Redeem System SDK.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?

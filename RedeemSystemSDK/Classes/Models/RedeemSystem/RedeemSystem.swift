@@ -18,9 +18,15 @@ public class RedeemSystem {
     
     private init() {}
     
-    public func configure(environment: APIEnvironment = .mainnet, apiKey: String?, network: Network = .eth) {
-        self.environment = environment
-        self.apiKey = apiKey
-        self.network = network
+    public func configure(environment: APIEnvironment? = nil, apiKey: String? = nil, network: Network? = nil) {
+        if let environment = environment {
+            self.environment = environment
+        }
+        if let apiKey = apiKey {
+            self.apiKey = apiKey
+        }
+        if let network = network {
+            self.network = network
+        }
     }
 }
