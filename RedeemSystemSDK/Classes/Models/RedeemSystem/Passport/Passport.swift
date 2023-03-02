@@ -41,14 +41,14 @@ extension Passport {
         .eraseToAnyPublisher()
     }
     
-    public func getNFTs(network: Network? = nil, apiKey: String? = nil, environment: APIEnvironment? = nil, campaignUUID: String) -> AnyPublisher<[NFTMetadata], RedeemSystemError> {
+    public func getRNFTs(network: Network? = nil, apiKey: String? = nil, environment: APIEnvironment? = nil, campaignUuid: String) -> AnyPublisher<[NFTMetadata], RedeemSystemError> {
         let apiKey = apiKey ?? RedeemSystem.shared.apiKey
         guard let apiKey = apiKey else { return Fail<[NFTMetadata], RedeemSystemError>(error: .unknown).eraseToAnyPublisher() }
-        return PassportAPI.GetNFTs(
+        return PassportAPI.GetRNFTs(
             network: network ?? RedeemSystem.shared.network,
             environment: environment ?? RedeemSystem.shared.environment,
             apiKey: apiKey,
-            campaignUUID: campaignUUID,
+            campaignUuid: campaignUuid,
             accessToken: RedeemSystem.shared.accessToken
         )
         .request()
@@ -58,21 +58,24 @@ extension Passport {
     }
     
     public func postRedemption(
+        network: Network? = nil,
         apiKey: String? = nil,
         environment: APIEnvironment? = nil,
-        campaign: PassportCampaign,
+        campaignUuid: String,
+        contractAddress: String,
         signature: String,
-        nftMetadata: NFTMetadata
+        tokenId: Int
     ) -> AnyPublisher<PassportRedemption, RedeemSystemError> {
         let apiKey = apiKey ?? RedeemSystem.shared.apiKey
         guard let apiKey = apiKey else { return Fail<PassportRedemption, RedeemSystemError>(error: .unknown).eraseToAnyPublisher() }
         return PassportAPI.PostRedemption(
-            network: campaign.network,
+            network: network ?? RedeemSystem.shared.network,
             environment: environment ?? RedeemSystem.shared.environment,
             apiKey: apiKey,
-            campaignUUID: campaign.uuid,
+            campaignUuid: campaignUuid,
             signature: signature,
-            nftMetadata: nftMetadata,
+            contractAddress: contractAddress,
+            tokenId: tokenId,
             accessToken: RedeemSystem.shared.accessToken
         )
         .request()
