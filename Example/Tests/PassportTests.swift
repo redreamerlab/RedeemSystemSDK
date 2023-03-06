@@ -129,4 +129,9 @@ final class PassportTests: XCTestCase {
         .store(in: &collection)
         wait(for: [expextation], timeout: 3)
     }
+    
+    func testReport() {
+        let readReportAPIKey = "ltg33BbQFiEtoN36cDvOjrUJT8p9io0hp26hJjfoFN4="
+        
+    }
 }

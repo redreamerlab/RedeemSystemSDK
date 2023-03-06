@@ -8,5 +8,5 @@
 import Foundation
 
 public enum APIEnvironment: String {
-    case mainnet, testnet, devnet, local
+    case Mainnet, Testnet, Devnet, Local
 }

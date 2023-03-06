@@ -10,8 +10,8 @@ import Foundation
 public class RedeemSystem {
     public static let shared = RedeemSystem()
     
-    public internal(set) var environment: APIEnvironment = .mainnet
-    var apiKey: String? = nil
+    public internal(set) var environment: APIEnvironment = .Mainnet
+    public var apiKey: String? = nil
     var network: Network = .eth
     var accessToken: String? = nil
     var refreshToken: String? = nil

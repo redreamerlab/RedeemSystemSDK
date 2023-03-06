@@ -19,10 +19,10 @@ struct AuthEndpoint: Endpoint {
 extension AuthTarget {
     var baseURL: URL {
         switch environment {
-        case .mainnet: return URL(string: "https://mainnet-api.redreamer.io")!
-        case .testnet: return URL(string: "https://testnet-api.redreamer.io")!
-        case .devnet: return URL(string: "https://devnet-api.redreamer.io")!
-        case .local: return URL(string: "http://localhost:5001")!
+        case .Mainnet: return URL(string: "https://mainnet-api.redreamer.io")!
+        case .Testnet: return URL(string: "https://testnet-api.redreamer.io")!
+        case .Devnet: return URL(string: "https://devnet-api.redreamer.io")!
+        case .Local: return URL(string: "http://localhost:5001")!
         }
     }
     var headers: [String : String]? { nil }
