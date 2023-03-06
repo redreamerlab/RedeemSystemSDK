@@ -49,7 +49,9 @@ RedeemSystem.shared.configure(environment: .mainnet, apiKey: “${apiKey}“, ne
 The function below will return `String` message which needs to be signed by the connected wallet.
 
 ```swift
-Auth.shared.loginSignMessage(address: address)
+Auth.shared.loginSignMessage(address: address).sink { message in
+    // Use the message to sign the signature to log in.
+}
 ```
 
 | Parameter   | Value | Description |
@@ -82,13 +84,16 @@ The `login` method will store the `accessToken` and `refreshToken` to `RedeemSys
 `getCampaigns` function will return list of public Passport campaigns by given network. By default, parameters in `RedeemSystem` will be used.
 
 ```swift
-Passport.shared.getCampaigns()
+Passport.shared.getCampaigns().sink { passportCampaigns in
+}
 ```
 
 If it's needed, parameters also can be specified when calling this function.
 
 ```swift
-Passport.shared.getCampaigns(network: network, apiKey: apiKey, environment: environment)
+Passport.shared.getCampaigns(network: network, apiKey: apiKey, environment: environment).sink { passportCampaigns in
+
+}
 ```
 
 | Parameter   | Value | Description |
@@ -100,7 +105,9 @@ Passport.shared.getCampaigns(network: network, apiKey: apiKey, environment: envi
 #### List all Redeemable NFTs by given Passport campaign
 
 ```swift
-Passport.shared.getRNFTs(campaignUuid: campaignUuid)
+Passport.shared.getRNFTs(campaignUuid: campaignUuid).sink { nftMetadatas in
+
+}
 ```
 
 | Parameter   | Value | Description |
@@ -122,7 +129,9 @@ campaign_uuid:${campaignUuid},contract_address:${contractAddress},token_id:${tok
 The signed message from STEP 1 can be used to redeem the NFT by calling function below.
 
 ```swift
-Passport.shared.postRedemption(campaignUuid: campaignUuid, contractAddress: contractAddress, signature: signature, tokenId: tokenId)
+Passport.shared.postRedemption(campaignUuid: campaignUuid, contractAddress: contractAddress, signature: signature, tokenId: tokenId).sink { redemption in
+
+}
 ```
 
 | Parameter   | Value | Description |
@@ -141,7 +150,9 @@ After calling `postRedemption`, `passportQRCode` will be returned. This `passpor
 Call function below to verify the `passportQRCode`
 
 ```swift
-Passport.shared.verify(passportQRCode)
+Passport.shared.verify(passportQRCode).sink { campaign in
+
+}
 ```
 
 ## Development
