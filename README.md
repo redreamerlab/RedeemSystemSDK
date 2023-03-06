@@ -24,91 +24,121 @@ pod ‘RedeemSystemSDK’
 
 ## Usage
 
-### Initialize the Redeem System SDK
+### Initialization
 
 ```swift
 import RedeemSystemSDK
 ```
 
-Then, in the `application:didFinishLaunchingWithOptions:` method, initialize the `RedeemSystem` object:
+In the `application:didFinishLaunchingWithOptions:` method, initialize the `RedeemSystem` object:
 
 ```swift
 RedeemSystem.shared.configure(environment: .mainnet, apiKey: “${apiKey}“, network: .eth)
 ```
 
-APIEnvironment has 4 attributes.
-
-- mainnet
-- testnet
-- devnet
-- local
-
-And Network has 4 blockchains supported by Redeem Sytem.
-
-- eth
-- polygon
-- tt
-- bnb
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| environment | `mainnet` / `testnet` / `devnet` / `local` |             |
+| apiKey      | String                                     | Contact dev@redreamer.io to get the API key |
+| network     | `eth` / `polygon` / `tt` / `bnb`           | Unique identifier of the network |
 
 ### Auth
 
-#### Get the login message to sign
+#### STEP 1 - Get the message to be signed
 
-Get the login message of the address to sign.
+The function below will return `String` message which needs to be signed by the connected wallet.
 
 ```swift
 Auth.shared.loginSignMessage(address: address)
 ```
 
-#### Log in with your wallet address
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| address | String | The wallet address of the user |
 
-Connect a wallet that allows users to sign a `loginSignMessage`. When a user signs the signature, call the `login` method:
+#### STEP 2 - Login with your wallet address
+
+Sign the `String` message from STEP 1 with the connected wallet private key.
+
+#### STEP 3 - Login with your wallet address
+
+Connect the wallet which sign the message and call the `login` method:
 
 ```swift
 Auth.shared.login(address: address, signature: signature)
 ```
 
-And it will store the `accessToken` and `refreshToken` to `RedeemSystem`, token will be used for all of the APIs that need authorization.
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| address | String | The wallet address of the user |
+| signature | String | Signed message from STEP 2 |
 
-### Passport
+The `login` method will store the `accessToken` and `refreshToken` to `RedeemSystem`. The token needs to be used for all API endpoints which need authorization.
 
-#### List Passport campaigns by network
+### Redeem Passport
 
-List all of the public campaigns by the network.
+#### List Passport campaigns by given network
+
+`getCampaigns` function will return list of public Passport campaigns by given network. By default, parameters in `RedeemSystem` will be used.
 
 ```swift
 Passport.shared.getCampaigns()
 ```
 
-It will use the default parameters stored in `RedeemSystem`, and you also can use specific parameters in this function.
+If it's needed, parameters also can be specified when calling this function.
 
 ```swift
 Passport.shared.getCampaigns(network: network, apiKey: apiKey, environment: environment)
 ```
 
-#### List all Redeemable NFTs by the campaign
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| network     | `eth` / `polygon` / `tt` / `bnb`           | Unique identifier of the network |
+| apiKey      | String                                     | Contact dev@redreamer.io to get the API key |
+| environment | `mainnet` / `testnet` / `devnet` / `local` |             |
+
+#### List all Redeemable NFTs by given Passport campaign
 
 ```swift
 Passport.shared.getRNFTs(campaignUuid: campaignUuid)
 ```
 
-#### Create a redemption of Passport by campaign
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| campaignUuid | String | The unique identifier of the campaign for which the list of eligible RNFTs is being retrieved |
 
-The signature is signed by the RNFT holder within the message format:
+#### Redeem an NFT by given Passport campaign
+
+**STEP 1 - Sign the message**
+
+Below message needs to be signed by RNFT holder wallet.
 
 ```
 campaign_uuid:${campaignUuid},contract_address:${contractAddress},token_id:${tokenId}
 ```
 
+**STEP 2 - Redeem the NFT**
+
+The signed message from STEP 1 can be used to redeem the NFT by calling function below.
+
 ```swift
 Passport.shared.postRedemption(campaignUuid: campaignUuid, contractAddress: contractAddress, signature: signature, tokenId: tokenId)
 ```
 
-When users create a redemption, they will sometimes return the Passport QR code content for the redemption, which could be validated by Verify API.
+| Parameter   | Value | Description |
+|-------------|-------|-------------|
+| campaignUuid | String | The unique identifier of the campaign |
+| contractAddress | String | The address of the smart contract for the selected NFT |
+| signature | String | Signed message from STEP 1 |
+| tokenId | String | Unique identifier for an NFT within a specific smart contract |
+
+After calling `postRedemption`, `passportQRCode` will be returned. This `passportQRCode` could be validated by calling `verify` function.
 
 #### Verify a redemption
 
-With the API key has the scope (`passport:validate`) to verify the Passport QR code.
+> **Warning**: make sure your API key has permission to do validation, i.e. `passport:validate` before calling `verify` function
+
+Call function below to verify the `passportQRCode`
 
 ```swift
 Passport.shared.verify(passportQRCode)
@@ -124,7 +154,9 @@ To develop Redeem System software in this repository, ensure that you have at le
 
 ### Running Unit Tests
 
-Select a scheme, press Command-U to build a component, and run this unit test.
+1. Select a scheme
+2. Press Command-U to build a component
+3. Run this unit test
 
 ## Author
 
