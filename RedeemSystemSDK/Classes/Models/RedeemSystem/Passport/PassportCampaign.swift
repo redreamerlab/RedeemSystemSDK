@@ -28,8 +28,28 @@ public struct PassportCampaign: Decodable {
      "updated_at": "2022-09-15T09:08:57.73208Z",
      "deleted_at": "0001-01-01T00:00:00Z"
      }
+     //wax
+     {
+         "creator": "waxchihkaiyu",
+         "image_url": "https://mainnet-cdn.redreamer.io/logo.png",
+         "description": "For WAX mainnet",
+         "qr_code_source": 0,
+         "redeemed_description": "redeemed!",
+         "collection_names": [
+             "tmnt.funko"
+         ],
+         "validated_description": "validated!",
+         "maximum_validated_count": 0,
+         "network": "wax",
+         "start_time": "2022-09-01 00:00:00+08:00",
+         "after_redeemed": 0,
+         "is_public": true,
+         "end_time": "2023-12-31 00:00:00+08:00",
+         "name": "tmnt.funko Redeem"
+     }
      */
-    public let uuid, name, description, redeemedDescription, imageUrl, startTime, endTime: String
-    public let contractAddresses: [String]
+    public let uuid: String?
+    public let name, description, redeemedDescription, imageUrl, startTime, endTime: String
+    public let contractAddresses, collectionNames: [String]?
     public let network: Network
 }

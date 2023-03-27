@@ -8,5 +8,5 @@
 import Foundation
 
 public enum Network: String, Decodable {
-    case eth, polygon, tt, bnb
+    case eth, polygon, tt, bnb, wax
 }

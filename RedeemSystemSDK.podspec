@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'RedeemSystemSDK'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'RE:DREAMER Lab Redeem System SDK.'
 
 # This description is used to generate tags and improve search results.
@@ -39,4 +39,5 @@ Redeem System SDK is a Swift library to intergate with RE:DREAMER Lab's Redeem S
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+  s.swift_versions = '5.0'
 end

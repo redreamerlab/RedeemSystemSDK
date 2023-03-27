@@ -38,6 +38,18 @@ enum PassportAPI {
                 withJSONObject: jsonObject, options: .prettyPrinted
             )
         }
+        var baseURL: URL {
+            switch Network(rawValue: passportQRCode.network) {
+            case .wax: return URL(string: "https://wax-api.redreamer.io/")!
+            default:
+                switch environment {
+                case .Mainnet: return URL(string: "https://mainnet-api.redreamer.io/")!
+                case .Testnet: return URL(string: "https://testnet-api.redreamer.io/")!
+                case .Devnet: return URL(string: "https://devnet-api.redreamer.io")!
+                case .Local: return URL(string: "http://localhost:5001")!
+                }
+            }
+        }
         var endpoint: Endpoint { PassportEndpoint(path: "/api/v1/passport/\(passportQRCode.network)/campaigns/\(passportQRCode.campaignUuid)/validate") }
     }
     

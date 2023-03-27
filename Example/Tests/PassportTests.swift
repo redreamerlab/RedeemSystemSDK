@@ -19,7 +19,7 @@ final class PassportTests: XCTestCase {
     private let campaignUuid = "a55df1fe-6bfe-40f6-9977-79d22970cbb7"
     
     override class func setUp() {
-        RedeemSystem.shared.configure(environment: .testnet, apiKey: "8AetTdcKwtrOvZJcPLI5VP2qxL70_kQ9Pkn6SNECrwo=")
+        RedeemSystem.shared.configure(environment: .Testnet, apiKey: "8AetTdcKwtrOvZJcPLI5VP2qxL70_kQ9Pkn6SNECrwo=")
     }
     
     private func login() -> AnyPublisher<Void, RedeemSystemError> {
@@ -39,7 +39,7 @@ final class PassportTests: XCTestCase {
             case let .failure(error): XCTFail(error.localizedDescription)
             }
         } receiveValue: { campaign in
-            DLogDebug(campaign)
+            print(campaign)
         }
         .store(in: &collection)
         wait(for: [expectation], timeout: 3)
@@ -55,11 +55,11 @@ final class PassportTests: XCTestCase {
         Passport.shared.verify(passportQRCode: passportQRCode).sink { [weak expectation] completion in
             switch completion {
             case .finished: XCTFail("It should not work.")
-            case let .failure(error): DLogError(error.localizedDescription)
+            case let .failure(error): print(error.localizedDescription)
             }
             expectation?.fulfill()
         } receiveValue: { campaign in
-            DLogDebug(campaign)
+            print(campaign)
         }
         .store(in: &collection)
         wait(for: [expectation], timeout: 3)
@@ -83,7 +83,7 @@ final class PassportTests: XCTestCase {
             }
         } receiveValue: { [weak expectation] campaigns in
             campaigns.forEach {
-                DLogInfo("\($0.network.rawValue): \($0.name) - \($0.uuid)")
+                print("\($0.network.rawValue): \($0.name) - \($0.uuid)")
             }
             expectation?.fulfill()
         }
@@ -102,8 +102,8 @@ final class PassportTests: XCTestCase {
             case let .failure(error): XCTFail(error.localizedDescription)
             }
         } receiveValue: { metadatas in
-            DLogInfo("NFT: \(metadatas.count)")
-            metadatas.forEach { DLogInfo("\($0.contractAddress ?? "") - \($0.tokenId ?? 0)") }
+            print("NFT: \(metadatas.count)")
+            metadatas.forEach { print("\($0.contractAddress ?? "") - \($0.tokenId ?? 0)") }
         }
         .store(in: &collection)
         wait(for: [expectation], timeout: 3)
@@ -123,7 +123,7 @@ final class PassportTests: XCTestCase {
             case let .failure(error): XCTFail(error.localizedDescription)
             }
         } receiveValue: { [weak expextation] redemption in
-            DLogInfo(redemption)
+            print(redemption)
             expextation?.fulfill()
         }
         .store(in: &collection)

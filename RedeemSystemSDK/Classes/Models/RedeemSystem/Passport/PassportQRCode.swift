@@ -34,3 +34,4 @@ public struct PassportQRCode: Codable {
         self = passportQRCode
     }
 }
+
