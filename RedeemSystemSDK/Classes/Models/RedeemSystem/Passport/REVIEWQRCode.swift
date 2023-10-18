@@ -1,5 +1,5 @@
 //
-//  PassportQRCode.swift
+//  REVIEWQRCode.swift
 //  RedeemSystemSDK
 //
 //  Created by 張家齊 on 2023/3/1.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PassportQRCode: Codable {
+public struct REVIEWQRCode: Codable {
     /*
      REDREAMER:eyJuZXR3b3JrIjoiZXRoIiwiY2FtcGFpZ25faWQiOiI5ZjYzYjA1Mi02ZDAwLTQ5NzQtOWI0OS1mZDJjZDgyMjA5N2MiLCJjb250cmFjdF9hZGRyZXNzIjoiMHhlNTRiOGYzMDU5ZDQxYzk0YTc4ODM1OTI5MWRlYTk1MDk5ZjBhYWRjIiwidG9rZW5faWQiOjI5LCJyZXF1ZXN0ZXJfYWRkcmVzcyI6IjB4ODViN2NhMTYxYzMxMWQ5YTVmMDA3N2Q1MDQ4Y2FkZmFjZTg5YTI2NyIsImhhc2giOiJkYjNmNDM5Ny1lMmJmLTQ1ZDgtYjU5Mi1iNTYzZTliYTljZjIifQ==
      
@@ -20,8 +20,8 @@ public struct PassportQRCode: Codable {
      "tokenId" : 29
      }
      */
-    public let network, campaignUuid, hash: String
-    public let contractAddress, requesterAddress, collectionName, requester: String?
+    public let hash: String
+    public let network, campaignUuid, contractAddress, requesterAddress, collectionName, requester: String?
     public let tokenId, assetId: Int?
     
     public init?(qrcode: String) {
@@ -30,8 +30,8 @@ public struct PassportQRCode: Codable {
         guard let data = Data(base64Encoded: base64) else { return nil }
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let passportQRCode = try? decoder.decode(PassportQRCode.self, from: data) else { return nil }
-        self = passportQRCode
+        guard let REVIEWQRCode = try? decoder.decode(REVIEWQRCode.self, from: data) else { return nil }
+        self = REVIEWQRCode
     }
 }
 

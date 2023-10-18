@@ -26,14 +26,31 @@ final class PassportTests: XCTestCase {
         Auth.shared.login(address: address, signature: messageHash)
     }
     
+    func testValidations() {
+        let expectation = expectation(description: #function)
+        REVIEW.shared.validations(environment: .Devnet, apiKey: "6I8UY-fP3LAfNUZP8cPHPukrvqryrfyliIepfixkYwE=", network: .polygon)
+            .sink { [weak expectation] completion in
+                switch completion {
+                case .finished: expectation?.fulfill()
+                case let .failure(error): XCTFail(error.localizedDescription)
+                }
+            } receiveValue: { validations in
+                validations.forEach {
+                    print($0)
+                }
+            }
+            .store(in: &collection)
+        wait(for: [expectation], timeout: 3)
+    }
+    
     func testVerify() {
         let testingQRCodeContent = qrCode
-        guard let passportQRCode = PassportQRCode(qrcode: testingQRCodeContent) else {
+        guard let reviewQRCode = REVIEWQRCode(qrcode: testingQRCodeContent) else {
             XCTFail("Passport QR code decodes failed.")
             return
         }
         let expectation = expectation(description: #function)
-        Passport.shared.verify(passportQRCode: passportQRCode).sink { [weak expectation] completion in
+        REVIEW.shared.verify(reviewQRCode: reviewQRCode).sink { [weak expectation] completion in
             switch completion {
             case .finished: expectation?.fulfill()
             case let .failure(error): XCTFail(error.localizedDescription)
@@ -47,12 +64,12 @@ final class PassportTests: XCTestCase {
     
     func testVerifyWithError() {
         let testingQRCodeContent = expiredQRCode
-        guard let passportQRCode = PassportQRCode(qrcode: testingQRCodeContent) else {
+        guard let reviewQRCode = REVIEWQRCode(qrcode: testingQRCodeContent) else {
             XCTFail("Passport QR code decodes failed.")
             return
         }
         let expectation = expectation(description: #function)
-        Passport.shared.verify(passportQRCode: passportQRCode).sink { [weak expectation] completion in
+        REVIEW.shared.verify(reviewQRCode: reviewQRCode).sink { [weak expectation] completion in
             switch completion {
             case .finished: XCTFail("It should not work.")
             case let .failure(error): print(error.localizedDescription)
@@ -128,10 +145,5 @@ final class PassportTests: XCTestCase {
         }
         .store(in: &collection)
         wait(for: [expextation], timeout: 3)
-    }
-    
-    func testReport() {
-        let readReportAPIKey = "ltg33BbQFiEtoN36cDvOjrUJT8p9io0hp26hJjfoFN4="
-        
     }
 }

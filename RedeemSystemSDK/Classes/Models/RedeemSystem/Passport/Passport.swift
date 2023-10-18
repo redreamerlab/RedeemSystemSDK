@@ -14,13 +14,14 @@ public class Passport {
 }
 
 extension Passport {
-    public func verify(environment: APIEnvironment? = nil, apiKey: String? = nil, passportQRCode: PassportQRCode) -> AnyPublisher<PassportCampaign, RedeemSystemError> {
+    public func getCampaign(network: Network? = nil, apiKey: String? = nil, environment: APIEnvironment? = nil, id: String) -> AnyPublisher<PassportCampaign, RedeemSystemError> {
         let apiKey = apiKey ?? RedeemSystem.shared.apiKey
-        guard let apiKey = apiKey else { return Fail<PassportCampaign, RedeemSystemError>(error: .unknown).eraseToAnyPublisher() }
-        return PassportAPI.Verify(
+        guard let apiKey = apiKey else { return Fail<PassportCampaign, RedeemSystemError>(error: .authorization).eraseToAnyPublisher() }
+        return PassportAPI.Campaign(
+            network: network ?? RedeemSystem.shared.network,
             environment: environment ?? RedeemSystem.shared.environment,
             apiKey: apiKey,
-            passportQRCode: passportQRCode
+            id: id
         )
         .request()
         .mapRedeemSystemError()

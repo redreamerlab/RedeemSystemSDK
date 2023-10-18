@@ -9,13 +9,14 @@ import Foundation
 import Combine
 
 public enum RedeemSystemError: LocalizedError {
-    case qrCodeExpired, authorization, unknown
+    case qrCodeExpired, authorization, unknown, message(content: String)
     
     public var errorDescription: String? {
         switch self {
         case .unknown: return "Unknown Error."
         case .authorization: return "Authorization is failed."
         case .qrCodeExpired: return "The QR code is expired."
+        case let .message(content): return content
         }
     }
 }
@@ -26,7 +27,7 @@ struct RedeemSystemErrorResponse: Decodable {
         switch code {
         case "QR_CODE_EXPIRED": return .qrCodeExpired
         case "AUTHORIZATION_ERROR": return .authorization
-        default: return .unknown
+        default: return .message(content: code)
         }
     }
 }

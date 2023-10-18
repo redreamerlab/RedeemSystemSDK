@@ -30,12 +30,26 @@ extension TargetType {
             .tryMap { (data, response) -> Self.ResponseType in
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                if let value = try? decoder.decode(Self.ResponseType.self, from: data) {
-                    DLogInfo(String(data: data, encoding: .utf8))
-                    return value
-                } else if let value = try? decoder.decode(RedeemSystemErrorResponse.self, from: data) {
-                    DLogError(String(data: data, encoding: .utf8))
-                    throw value.error
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    if 400..<500 ~= statusCode {
+                        if let error = try? JSONDecoder().decode(REVIEWErrorResponse.self, from: data) {
+                            DLogError(error.message)
+                            throw RedeemSystemError.message(content: error.message)
+                        } else if let value = try? decoder.decode(RedeemSystemErrorResponse.self, from: data) {
+                            DLogError(String(data: data, encoding: .utf8))
+                            throw value.error
+                        } else {
+                            throw NSError(domain: "io.redremaer", code: 0, userInfo: ["response": response, "data": data])
+                        }
+                    } else if let value = try? decoder.decode(Self.ResponseType.self, from: data) {
+                        DLogInfo(String(data: data, encoding: .utf8))
+                        return value
+                    } else if let value = try? decoder.decode(RedeemSystemErrorResponse.self, from: data) {
+                        DLogError(String(data: data, encoding: .utf8))
+                        throw value.error
+                    } else {
+                        throw NSError(domain: "io.redremaer", code: 0, userInfo: ["response": response, "data": data])
+                    }
                 } else {
                     throw NSError(domain: "io.redremaer", code: 0, userInfo: ["response": response, "data": data])
                 }

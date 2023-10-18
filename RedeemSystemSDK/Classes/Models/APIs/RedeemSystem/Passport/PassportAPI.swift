@@ -8,49 +8,16 @@
 import Foundation
 
 enum PassportAPI {
-    struct Verify: PassportTarget {
+    struct Campaign: PassportTarget {
         typealias ResponseType = PassportCampaign
         
+        let network: Network
         let environment: APIEnvironment
-        let apiKey: String
+        let apiKey, id: String
+        var endpoint: Endpoint { PassportEndpoint(path: "/api/v1/passport/\(network)/campaigns/\(id)") }
+        let method: HTTPMethod = .GET
+        let body: Data? = nil
         let accessToken: String? = nil
-        let passportQRCode: PassportQRCode
-        var method: HTTPMethod { .POST }
-        var body: Data? {
-            var jsonObject: [String: Any] = [:]
-            if passportQRCode.network == "wax" {
-                jsonObject = [
-                    "requester": passportQRCode.requester ?? "",
-                    "asset_id": passportQRCode.assetId ?? 1,
-                    "hash": passportQRCode.hash,
-                    "collection_name": passportQRCode.collectionName ?? ""
-                ]
-            } else {
-                jsonObject = [
-                    "requester_address": passportQRCode.requesterAddress ?? "",
-                    "contract_address": passportQRCode.contractAddress ?? "",
-                    "token_id": passportQRCode.tokenId ?? 1,
-                    "hash": passportQRCode.hash,
-                    "validator": apiKey
-                ]
-            }
-            return try? JSONSerialization.data(
-                withJSONObject: jsonObject, options: .prettyPrinted
-            )
-        }
-        var baseURL: URL {
-            switch Network(rawValue: passportQRCode.network) {
-            case .wax: return URL(string: "https://wax-api.redreamer.io/")!
-            default:
-                switch environment {
-                case .Mainnet: return URL(string: "https://mainnet-api.redreamer.io/")!
-                case .Testnet: return URL(string: "https://testnet-api.redreamer.io/")!
-                case .Devnet: return URL(string: "https://devnet-api.redreamer.io")!
-                case .Local: return URL(string: "http://localhost:5001")!
-                }
-            }
-        }
-        var endpoint: Endpoint { PassportEndpoint(path: "/api/v1/passport/\(passportQRCode.network)/campaigns/\(passportQRCode.campaignUuid)/validate") }
     }
     
     struct Campaigns: PassportTarget {
